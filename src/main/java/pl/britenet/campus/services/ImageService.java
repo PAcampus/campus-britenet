@@ -28,4 +28,22 @@ public class ImageService {
         product.setImage(image);
     }
 
+    public void insertImage(Image image) {
+        this.databaseService.performDML(String.format("INSERT INTO image (path) VALUES ('%s')", image.getPath()));
+    }
+
+    public void deleteImage(int id) {
+        this.databaseService.performDML("SET foreign_key_checks = 0");
+        this.databaseService.performDML(
+                String.format("DELETE FROM image WHERE Id = %d;", id));
+        this.databaseService.performDML("SET foreign_key_checks = 1");
+    }
+
+    public void updateImage(Image image) {
+        this.databaseService.performDML("SET foreign_key_checks = 0");
+        this.databaseService.performDML(
+                String.format("UPDATE product SET path='%s' WHERE Id = %d;",image.getPath(), image.getId()));
+        this.databaseService.performDML("SET foreign_key_checks = 1");
+    }
+
 }

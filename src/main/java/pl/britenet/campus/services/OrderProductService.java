@@ -59,15 +59,15 @@ public class OrderProductService {
     public Optional<OrderProduct> getOrderProduct(int id) {
         OrderProduct retrievedOrderProduct = this.databaseService.performSQL(
                 String.format("SELECT o.Id AS oId, o.CartId AS oCartId, o.UserId AS oUserId, o.CreatedAt AS oCreatedAt,\n" +
-                        "       op.Id AS opId, op.ProductId AS opProductId, op.CreatedAt AS opCreatedAt,\n" +
-                        "       p.name AS Name, p.description AS description, p.price AS Price\n" +
-                        "FROM\n" +
-                        "    order_ AS o\n" +
-                        "         INNER JOIN\n" +
-                        "    orderproduct AS op ON o.Id = op.OrderId\n" +
-                        "         INNER JOIN\n" +
-                        "    product AS p ON op.ProductId = p.Id" +
-                        "WHERE Id = %d;", id), resultSet -> {
+                        "                               op.Id AS opId, op.ProductId AS opProductId, op.CreatedAt AS opCreatedAt,\n" +
+                        "                               p.name AS Name, p.description AS description, p.price AS Price\n" +
+                        "                        FROM\n" +
+                        "                            order_ AS o\n" +
+                        "                                 INNER JOIN\n" +
+                        "                            orderproduct AS op ON o.Id = op.OrderId\n" +
+                        "                                 INNER JOIN\n" +
+                        "                            product AS p ON op.ProductId = p.Id\n" +
+                        "                        WHERE op.Id = %d;", id), resultSet -> {
             try {
                 if (resultSet.next()) {
                     Order order = new Order(resultSet.getInt("oId"));

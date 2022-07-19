@@ -12,6 +12,7 @@ import pl.britenet.campus.commands.orderproduct.GetOrderProductCommand;
 import pl.britenet.campus.commands.product.*;
 import pl.britenet.campus.commands.user.*;
 import pl.britenet.campus.database.DatabaseService;
+import pl.britenet.campus.models.OrderProduct;
 import pl.britenet.campus.services.*;
 import pl.britenet.campus.services.grouping.*;
 
