@@ -40,10 +40,8 @@ public class ImageService {
     }
 
     public void updateImage(Image image) {
-        this.databaseService.performDML("SET foreign_key_checks = 0");
         this.databaseService.performDML(
                 String.format("UPDATE product SET path='%s' WHERE Id = %d;",image.getPath(), image.getId()));
-        this.databaseService.performDML("SET foreign_key_checks = 1");
     }
 
 }

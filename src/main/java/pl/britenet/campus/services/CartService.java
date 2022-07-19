@@ -64,10 +64,8 @@ public class CartService {
     }
 
     public void updateCart(Cart cart) {
-        this.databaseService.performDML("SET foreign_key_checks = 0");
         this.databaseService.performDML(String.format(
                 "UPDATE cart SET UserId = %d, Total = " + cart.getTotal() +" WHERE Id = %d",
                 cart.getUserId(), cart.getId()));
-        this.databaseService.performDML("SET foreign_key_checks = 1");
     }
 }

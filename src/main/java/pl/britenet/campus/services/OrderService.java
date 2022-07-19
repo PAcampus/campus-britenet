@@ -69,11 +69,9 @@ public class OrderService {
     }
 
     public void updateOrder(Order order) {
-        this.databaseService.performDML("SET foreign_key_checks = 0");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         this.databaseService.performDML(String.format(
                 "UPDATE order_ SET CartId = %d, UserId = %d, CreatedAt = '%s' WHERE Id = %d",
                 order.getCartId(), order.getUserId(), df.format(order.getCreatedAt()), order.getId()));
-        this.databaseService.performDML("SET foreign_key_checks = 1");
     }
 }

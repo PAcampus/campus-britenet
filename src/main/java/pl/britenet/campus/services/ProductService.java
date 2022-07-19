@@ -73,11 +73,9 @@ public class ProductService {
     }
 
     public void updateProduct(Product product) {
-        this.databaseService.performDML("SET foreign_key_checks = 0");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         this.databaseService.performDML(String.format(
                 "UPDATE product SET Name = '%s', Description = '%s', Price = " + product.getPrice() +", AddedAt = '%s' WHERE Id = %d",
                 product.getName(), product.getDescription(), df.format(product.getAddedAt()), product.getId()));
-        this.databaseService.performDML("SET foreign_key_checks = 1");
     }
 }

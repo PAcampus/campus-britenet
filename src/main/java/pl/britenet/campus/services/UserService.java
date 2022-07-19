@@ -94,12 +94,10 @@ public class UserService {
     }
 
     public void updateUser(User user) {
-        this.databaseService.performDML("SET foreign_key_checks = 0");
         this.databaseService.performDML(String.format(
                 "UPDATE user_ SET Name = '%s', Last_name = '%s', Address = '%s', Email = '%s', " +
                         "Password = '%s', Phone_number = '%s', CartId = %d WHERE Id = %d",
                 user.getName(), user.getLast_name(), user.getAddress(), user.getEmail(),
                 user.getPassword(), user.getPhone_number(), user.getCartId(), user.getId()));
-        this.databaseService.performDML("SET foreign_key_checks = 1");
     }
 }
