@@ -60,6 +60,24 @@ public class UserService {
         return Optional.of(retrievedUser);
     }
 
+    public Optional<User> getUser(String email, String password) {
+        User retrievedProduct = this.databaseService.performSQL(String.format("SELECT * FROM user WHERE username='%s' AND password='%s'", email, password), resultSet -> {
+            try {
+                if (resultSet.next()) {
+                    User user = new User(resultSet.getInt("id"));
+                    user.setEmail(resultSet.getString("email"));
+                    user.setPassword(resultSet.getString("password"));
+                    return user;
+                }
+            } catch (SQLException exception) {
+                throw new IllegalStateException(exception);
+            }
+            return null;
+        });
+
+        return Optional.of(retrievedProduct);
+    }
+
     public void insertUser(User user) {
         this.databaseService.performDML(String.format(
                 "INSERT INTO user_(Name, Last_name, Address, Email, Password, Phone_number ) " +
