@@ -5,23 +5,34 @@ import pl.britenet.campus.Constants;
 import java.util.Date;
 
 public class OrderProduct {
-    private final int Id;
+    private int Id;
     private int ProductId;
     private int OrderId;
     private Date CreatedAt;
     private Order order;
     private Product product;
 
-    public OrderProduct() {
-        this.Id = Constants.INVALID_ID;
-    }
+    public OrderProduct() { }
 
     public OrderProduct(int id) {
         this.Id = id;
     }
 
+    public OrderProduct(int id, int productId, int orderId, Date createdAt, Order order, Product product) {
+        Id = id;
+        ProductId = productId;
+        OrderId = orderId;
+        CreatedAt = createdAt;
+        this.order = order;
+        this.product = product;
+    }
+
     public int getId() {
         return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public int getProductId() {

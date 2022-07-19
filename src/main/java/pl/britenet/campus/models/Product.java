@@ -5,7 +5,7 @@ import pl.britenet.campus.Constants;
 import java.util.Date;
 
 public class Product {
-    private final int Id;
+    private int Id;
     private String Name;
     private String Description;
     private double Price;
@@ -13,16 +13,28 @@ public class Product {
     private int ImageId;
     private Image image;
 
-    public Product() {
-        this.Id = Constants.INVALID_ID;
-    }
+    public Product() { }
 
     public Product(int id) {
         this.Id = id;
     }
 
+    public Product(int id, String name, String description, double price, Date addedAt, int imageId, Image image) {
+        this.Id = id;
+        this.Name = name;
+        this.Description = description;
+        this.Price = price;
+        this.AddedAt = addedAt;
+        this.ImageId = imageId;
+        this.image = image;
+    }
+
     public int getId() {
         return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getName() {

@@ -3,7 +3,7 @@ package pl.britenet.campus.models;
 import pl.britenet.campus.Constants;
 
 public class User {
-    private final int Id;
+    private int Id;
     private String Name;
     private String Last_name;
     private String Address;
@@ -14,16 +14,32 @@ public class User {
     private int ImageId;
     private Image image;
 
-    public User() {
-        this.Id = Constants.INVALID_ID;
-    }
+    public User() { }
 
     public User(int userId) {
         this.Id = userId;
     }
 
+    public User(int id, String name, String last_name, String address, String email,
+                String password, String phone_number, int cartId, int imageId, Image image) {
+        Id = id;
+        Name = name;
+        Last_name = last_name;
+        Address = address;
+        Email = email;
+        Password = password;
+        Phone_number = phone_number;
+        CartId = cartId;
+        ImageId = imageId;
+        this.image = image;
+    }
+
     public int getId() {
         return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getName() {

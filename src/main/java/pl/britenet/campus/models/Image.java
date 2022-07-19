@@ -6,9 +6,7 @@ public class Image {
     private int Id;
     private String path;
 
-    public Image() {
-        this.Id = Constants.INVALID_ID;
-    }
+    public Image() { }
 
     public Image(int Id) {
         this.Id = Id;
@@ -22,6 +20,10 @@ public class Image {
 
     public int getId() {
         return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getPath() {

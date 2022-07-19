@@ -3,22 +3,32 @@ package pl.britenet.campus.models;
 import pl.britenet.campus.Constants;
 
 public class CartProduct {
-    private final int Id;
+    private int Id;
     private int CartId;
     private int ProductId;
     private Cart cart;
     private Product product;
 
-    public CartProduct() {
-        this.Id = Constants.INVALID_ID;
-    }
+    public CartProduct() { }
 
     public CartProduct(int id) {
         this.Id = id;
     }
 
+    public CartProduct(int id, int cartId, int productId, Cart cart, Product product) {
+        Id = id;
+        CartId = cartId;
+        ProductId = productId;
+        this.cart = cart;
+        this.product = product;
+    }
+
     public int getId() {
         return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public int getCartId() {

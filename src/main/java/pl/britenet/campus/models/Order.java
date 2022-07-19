@@ -5,29 +5,30 @@ import pl.britenet.campus.Constants;
 import java.util.Date;
 
 public class Order {
-    private final int Id;
+    private int Id;
     private int CartId;
     private int UserId;
     private Date CreatedAt;
 
-    public int getUserId() {
-        return UserId;
-    }
-
-    public void setUserId(int userId) {
-        UserId = userId;
-    }
-
-    public Order() {
-        this.Id = Constants.INVALID_ID;
-    }
+    public Order() { }
 
     public Order(int id) {
         this.Id = id;
     }
 
+    public Order(int id, int cartId, int userId, Date createdAt) {
+        Id = id;
+        CartId = cartId;
+        UserId = userId;
+        CreatedAt = createdAt;
+    }
+
     public int getId() {
         return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public int getCartId() {
@@ -36,6 +37,14 @@ public class Order {
 
     public void setCartId(int cartId) {
         CartId = cartId;
+    }
+
+    public int getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(int userId) {
+        UserId = userId;
     }
 
     public Date getCreatedAt() {
