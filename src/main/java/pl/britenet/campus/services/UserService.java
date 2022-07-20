@@ -61,7 +61,7 @@ public class UserService {
     }
 
     public Optional<User> getUser(String email, String password) {
-        User retrievedProduct = this.databaseService.performSQL(String.format("SELECT * FROM user WHERE username='%s' AND password='%s'", email, password), resultSet -> {
+        User retrievedProduct = this.databaseService.performSQL(String.format("SELECT * FROM user_ WHERE email='%s' AND password='%s'", email, password), resultSet -> {
             try {
                 if (resultSet.next()) {
                     User user = new User(resultSet.getInt("id"));
