@@ -5,6 +5,11 @@ import pl.britenet.campus.models.Image;
 import pl.britenet.campus.models.Product;
 import pl.britenet.campus.models.User;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class ImageService {
     private final DatabaseService databaseService;
 
@@ -26,6 +31,38 @@ public class ImageService {
                 image.getId(),product.getId()));
         product.setImageId(image.getId());
         product.setImage(image);
+    }
+
+    public List<Image> getImages() {
+        return this.databaseService.performSQL("SELECT * FROM image", resultSet -> {
+           List<Image> imageList = new ArrayList<>();
+           try {
+               while (resultSet.next()) {
+                   Image image = new Image(resultSet.getInt("Id"));
+                   image.setPath(resultSet.getString("path"));
+                   imageList.add(image);
+               }
+           } catch (SQLException exception) {
+               throw new IllegalStateException(exception);
+           }
+           return imageList;
+        });
+    }
+
+    public Optional<Image> getImage(int id) {
+        Image retrievedImage = this.databaseService.performSQL(String.format("SELECT * FROM image WHERE Id = %d", id), resultSet -> {
+            try {
+                if(resultSet.next()) {
+                    Image image = new Image(resultSet.getInt("Id"));
+                    image.setPath(resultSet.getString("path"));
+                }
+            }
+            catch (SQLException exception) {
+                throw new IllegalStateException(exception);
+            }
+            return null;
+        });
+        return Optional.of(retrievedImage);
     }
 
     public void insertImage(Image image) {
