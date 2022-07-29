@@ -1,6 +1,5 @@
 package pl.britenet.campus.models;
 
-import pl.britenet.campus.Constants;
 
 import java.util.Date;
 
@@ -16,6 +15,12 @@ public class OrderProduct {
 
     public OrderProduct(int id) {
         this.Id = id;
+    }
+
+    public OrderProduct(int productId, int orderId, Date createdAt) {
+        this.ProductId = productId;
+        this.OrderId = orderId;
+        this.CreatedAt = createdAt;
     }
 
     public OrderProduct(int id, int productId, int orderId, Date createdAt, Order order, Product product) {

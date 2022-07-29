@@ -1,6 +1,7 @@
 package pl.britenet.campus.services;
 
 import pl.britenet.campus.database.DatabaseService;
+import pl.britenet.campus.models.Image;
 import pl.britenet.campus.models.Product;
 
 import java.sql.SQLException;
@@ -19,15 +20,21 @@ public class ProductService {
     }
 
     public List<Product> getProducts() {
-        return this.databaseService.performSQL("SELECT * FROM product", resultSet -> {
+        return this.databaseService.performSQL("SELECT p.Id, p.Name, p.Description, p.Price, p.AddedAt, i.Id, i.Path " +
+                "FROM product AS p LEFT JOIN image AS i ON p.imageId = i.Id", resultSet -> {
             List<Product> productList = new ArrayList<>();
             try {
                 while (resultSet.next()) {
-                    Product product = new Product(resultSet.getInt("Id"));
-                    product.setName(resultSet.getString("Name"));
-                    product.setDescription(resultSet.getString("Description"));
-                    product.setPrice(resultSet.getDouble("Price"));
-                    product.setAddedAt(resultSet.getDate("AddedAt"));
+                    Product product = new Product(resultSet.getInt("p.Id"));
+                    product.setName(resultSet.getString("p.Name"));
+                    product.setDescription(resultSet.getString("p.Description"));
+                    product.setPrice(resultSet.getDouble("p.Price"));
+                    product.setAddedAt(resultSet.getDate("p.AddedAt"));
+                    product.setImageId(resultSet.getInt("i.Id"));
+                    Image image = new Image(resultSet.getInt("i.Id"));
+                    image.setPath(resultSet.getString("i.Path"));
+                    product.setImage(image);
+
                     productList.add(product);
                 }
             } catch (SQLException exception) {
@@ -39,13 +46,19 @@ public class ProductService {
 
     public Optional<Product> getProduct(int id) {
         Product retrievedProduct = this.databaseService.performSQL(
-                String.format("SELECT * FROM product WHERE Id = %d", id), resultSet -> {
+                String.format("SELECT * " +
+                        "FROM product AS p LEFT JOIN image AS i ON p.imageId = i.Id WHERE p.Id = %d", id), resultSet -> {
             try {
                 if (resultSet.next()) {
-                    Product product = new Product(resultSet.getInt("Id"));
-                    product.setName(resultSet.getString("Name"));
-                    product.setDescription(resultSet.getString("Description"));
-                    product.setPrice(resultSet.getDouble("Price"));
+                    Product product = new Product(resultSet.getInt("p.Id"));
+                    product.setName(resultSet.getString("p.Name"));
+                    product.setDescription(resultSet.getString("p.Description"));
+                    product.setPrice(resultSet.getDouble("p.Price"));
+                    product.setAddedAt(resultSet.getDate("p.AddedAt"));
+                    product.setImageId(resultSet.getInt("i.Id"));
+                    Image image = new Image(resultSet.getInt("i.Id"));
+                    image.setPath(resultSet.getString("i.Path"));
+                    product.setImage(image);
                     return product;
                 }
             } catch (SQLException exception) {

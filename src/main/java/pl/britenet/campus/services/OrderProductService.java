@@ -8,6 +8,7 @@ import pl.britenet.campus.models.Product;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -99,6 +100,14 @@ public class OrderProductService {
         this.databaseService.performDML(String.format(
                 "INSERT INTO orderproduct(OrderId, ProductId, CreatedAt) VALUES(%d, %d, '%s');",
                 orderProduct.getOrderId(), orderProduct.getProductId(), df.format(orderProduct.getCreatedAt())));
+    }
+
+    public void insertOrderProducts(List<OrderProduct> orderProducts, int orderId) {
+        orderProducts.forEach(orderProduct -> {
+            orderProduct.setOrderId(orderId);
+            orderProduct.setCreatedAt(new Date());
+            this.insertOrderProduct(orderProduct);
+        });
     }
 
     public void deleteOrderProduct(int id) {

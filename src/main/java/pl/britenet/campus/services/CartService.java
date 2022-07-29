@@ -56,6 +56,11 @@ public class CartService {
                 cart.getUserId()));
     }
 
+    public int getNewCartId() {
+        List<Cart> cartList = this.getCarts();
+        return cartList.get(cartList.size() - 1).getId();
+    }
+
     public void deleteCart(int id) {
         this.databaseService.performDML("SET foreign_key_checks = 0");
         this.databaseService.performDML(String.format(

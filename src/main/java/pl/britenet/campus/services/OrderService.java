@@ -54,6 +54,11 @@ public class OrderService {
         return Optional.of(retrievedOrder);
     }
 
+    public int getNewOrderId() {
+        List<Order> orderList = this.getOrders();
+        return orderList.get(orderList.size() - 1).getId();
+    }
+
     public void insertOrder(Order order) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         this.databaseService.performDML(String.format(
