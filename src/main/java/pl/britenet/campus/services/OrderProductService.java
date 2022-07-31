@@ -1,6 +1,7 @@
 package pl.britenet.campus.services;
 
 import pl.britenet.campus.database.DatabaseService;
+import pl.britenet.campus.models.Image;
 import pl.britenet.campus.models.Order;
 import pl.britenet.campus.models.OrderProduct;
 import pl.britenet.campus.models.Product;
@@ -93,6 +94,50 @@ public class OrderProductService {
             return null;
         });
         return Optional.of(retrievedOrderProduct);
+    }
+
+    public List<OrderProduct> getOrderProductsOfUser(int id) {
+        return this.databaseService.performSQL(String.format
+                ("SELECT *\n" +
+                        "FROM\n" +
+                        "    order_ AS o\n" +
+                        "        INNER JOIN\n" +
+                        "    orderproduct AS op ON o.Id = op.OrderId\n" +
+                        "        INNER JOIN\n" +
+                        "    product AS p ON op.ProductId = p.Id\n" +
+                        "    \tINNER JOIN\n" +
+                        "    image AS i ON p.ImageId = i.Id\n" +
+                        "        WHERE o.userId = %d;",id), resultSet -> {
+                    List<OrderProduct> orderProductList = new LinkedList<>();
+                    try {
+                        while (resultSet.next()) {
+                            Order order = new Order(resultSet.getInt("o.Id"));
+                            order.setUserId(resultSet.getInt("o.UserId"));
+                            order.setCartId(resultSet.getInt("o.CartId"));
+                            order.setCreatedAt(resultSet.getDate("o.CreatedAt"));
+                            Product product = new Product(resultSet.getInt("op.ProductId"));
+                            product.setName(resultSet.getString("p.Name"));
+                            product.setDescription(resultSet.getString("p.Description"));
+                            product.setPrice(resultSet.getDouble("p.Price"));
+                            product.setAddedAt(resultSet.getDate("p.AddedAt"));
+                            product.setImageId(resultSet.getInt("p.ImageId"));
+                            Image image = new Image(resultSet.getInt("p.ImageId"));
+                            image.setPath(resultSet.getString("i.path"));
+                            product.setImage(image);
+                            OrderProduct orderProduct = new OrderProduct(resultSet.getInt("op.Id"));
+                            orderProduct.setOrderId(resultSet.getInt("o.Id"));
+                            orderProduct.setProductId(resultSet.getInt("op.ProductId"));
+                            orderProduct.setProduct(product);
+                            orderProduct.setOrder(order);
+                            orderProduct.setCreatedAt(resultSet.getDate("op.CreatedAt"));
+                            orderProductList.add(orderProduct);
+                        }
+                    } catch (SQLException exception) {
+                        throw new IllegalStateException(exception);
+                    }
+                    return orderProductList;
+                });
+
     }
 
     public void insertOrderProduct(OrderProduct orderProduct) {
