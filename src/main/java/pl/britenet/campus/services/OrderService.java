@@ -25,6 +25,7 @@ public class OrderService {
                     Order order = new Order(resultSet.getInt("Id"));
                     order.setCartId(resultSet.getInt("CartId"));
                     order.setUserId(resultSet.getInt("UserId"));
+                    order.setAddress(resultSet.getString("Address"));
                     order.setCreatedAt(resultSet.getDate("CreatedAt"));
                     orderList.add(order);
                 }
@@ -43,6 +44,7 @@ public class OrderService {
                     Order order = new Order(resultSet.getInt("Id"));
                     order.setCartId(resultSet.getInt("CartId"));
                     order.setUserId(resultSet.getInt("UserId"));
+                    order.setAddress(resultSet.getString("Address"));
                     order.setCreatedAt(resultSet.getDate("CreatedAt"));
                     return order;
                 }
@@ -62,8 +64,8 @@ public class OrderService {
     public void insertOrder(Order order) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         this.databaseService.performDML(String.format(
-                "INSERT INTO order_(CartId, UserId, CreatedAt) VALUES(%d, %d, '%s')",
-                order.getCartId(), order.getUserId(), df.format(order.getCreatedAt())));
+                "INSERT INTO order_(CartId, UserId, Address, CreatedAt) VALUES(%d, %d, '%s', '%s')",
+                order.getCartId(), order.getUserId(), order.getAddress(), df.format(order.getCreatedAt())));
     }
 
     public void deleteOrder(int id) {

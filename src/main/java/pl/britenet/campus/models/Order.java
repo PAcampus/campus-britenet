@@ -8,6 +8,7 @@ public class Order {
     private int Id;
     private int CartId;
     private int UserId;
+    private String Address;
     private Date CreatedAt;
 
     public Order() { }
@@ -53,6 +54,14 @@ public class Order {
 
     public void setCreatedAt(Date createdAt) {
         CreatedAt = createdAt;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
     }
 
     @Override
